@@ -9,7 +9,12 @@
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            return new StateAwareWindow(new AppShell());
         }
+
+        //protected override Window CreateWindow(IActivationState activationState)
+        //{
+        //    return new StateAwareWindow(MainPage);
+        //}
     }
 }
