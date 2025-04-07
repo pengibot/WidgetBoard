@@ -1,9 +1,12 @@
+using WidgetBoard.ViewModels;
+
 namespace WidgetBoard.Pages;
 
 public partial class BoardDetailsPage : ContentPage
 {
-	public BoardDetailsPage()
-	{
-		InitializeComponent();
-	}
+    public BoardDetailsPage(BoardDetailsPageViewModel boardDetailsPageViewModel)
+    {
+        InitializeComponent();
+        BindingContext = boardDetailsPageViewModel;
+    }
 }

@@ -18,10 +18,8 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         {
             return false;
         }
-
         backingField = value;
         OnPropertyChanged(propertyName);
-
         return true;
     }
 }

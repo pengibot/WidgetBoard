@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:WidgetBoard.Views"
-             x:Class="WidgetBoard.Pages.BoardDetailsPage"
-             Title="BoardDetailsPage">
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:WidgetBoard.ViewModels"
+    x:Class="WidgetBoard.Pages.BoardDetailsPage"
+    x:DataType="viewModels:BoardDetailsPageViewModel">
     <Border
         MinimumWidthRequest="300"
         HorizontalOptions="Center"
@@ -15,29 +17,37 @@
                 <Label
                     Text="Name"
                     FontAttributes="Bold" />
-                <Entry />
+                <Entry Text="{Binding Path=BoardName}" />
                 <Label
                     Text="Layout"
-                    FontAttributes="Bold" />            
+                    FontAttributes="Bold" />
                 <HorizontalStackLayout>
                     <RadioButton
                         x:Name="FixedRadioButton"
-                        Content="Fixed" />
+                        Content="Fixed"
+                        IsChecked="{Binding IsFixed}" />
                 </HorizontalStackLayout>
-                <VerticalStackLayout>
+                <VerticalStackLayout
+                    IsVisible="{Binding IsChecked, Source={x:Reference FixedRadioButton}}">
+
                     <Label
                         Text="Number of Columns"
-                        FontAttributes="Bold" />        
-                    <Entry Keyboard="Numeric" />
+                        FontAttributes="Bold" />
+                    <Entry 
+                        Text="{Binding NumberOfColumns}"
+                        Keyboard="Numeric" />
                     <Label
                         Text="Number of Rows"
-                        FontAttributes="Bold" />    
-                    <Entry Keyboard="Numeric" />
+                        FontAttributes="Bold" />
+                    <Entry 
+                        Text="{Binding NumberOfRows}"
+                        Keyboard="Numeric" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
             <Button
                 Text="Save"
-                HorizontalOptions="End" />  
+                HorizontalOptions="End"
+                Command="{Binding SaveCommand}" />
         </VerticalStackLayout>
     </Border>
 </ContentPage>

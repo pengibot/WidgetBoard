@@ -1,6 +1,6 @@
 ﻿namespace WidgetBoard.Models;
 
-public class Board
+public class FixedBoard
 {
     public string Name { get; init; } = string.Empty;
     public int NumberOfColumns { get; init; }

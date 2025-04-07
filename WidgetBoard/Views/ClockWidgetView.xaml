@@ -6,7 +6,11 @@
     x:Class="WidgetBoard.Views.ClockWidgetView"
     FontSize="80"
     VerticalOptions="Center"
-    HorizontalOptions="Center"
-    x:DataType="viewModels:ClockWidgetViewModel"
-    Text="{Binding Time}">
+    HorizontalOptions="Center">
+    <Label.Text>
+        <MultiBinding StringFormat="{}{0} {1}">
+            <Binding Path="Date" />
+            <Binding Path="Time" />
+        </MultiBinding>
+    </Label.Text>
 </Label>
