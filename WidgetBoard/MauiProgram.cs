@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using WidgetBoard.Pages;
+using WidgetBoard.ViewModels;
 
 namespace WidgetBoard
 {
@@ -18,7 +20,8 @@ namespace WidgetBoard
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddTransient<BoardDetailsPage>();
+            builder.Services.AddTransient<BoardDetailsPageViewModel>();
             return builder.Build();
         }
     }
