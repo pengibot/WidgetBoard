@@ -3,10 +3,36 @@
     x:Class="WidgetBoard.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:WidgetBoard.ViewModels"
+    xmlns:models="clr-namespace:WidgetBoard.Models"
+    x:DataType="viewmodels:AppShellViewModel"
     xmlns:pages="clr-namespace:WidgetBoard.Pages"
     Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
         ContentTemplate="{DataTemplate pages:BoardDetailsPage}" />
+
+    <Shell.FlyoutHeader>
+        <Label 
+            Text="My boards"
+            FontSize="20"
+            HorizontalTextAlignment="Center" />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutContent>
+        <CollectionView
+            ItemsSource="{Binding Boards}"
+            SelectionMode="Single"
+            SelectedItem="{Binding CurrentBoard}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Board">
+                    <Label
+                        Text="{Binding Name}"
+                        FontSize="20"
+                        Padding="10,0,0,0" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Shell.FlyoutContent>
 
 </Shell>

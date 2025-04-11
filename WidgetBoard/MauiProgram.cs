@@ -31,6 +31,7 @@ namespace WidgetBoard
                 builder.Services, RouteNames.Settings);
 
             builder.Services.AddTransient<AppShellViewModel>();
+            builder.Services.AddTransient<AppShell>();
 
             return builder.Build();
         }
