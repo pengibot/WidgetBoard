@@ -8,4 +8,5 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
     {
         var board = query["Board"] as FixedBoard;
     }
+
 }
