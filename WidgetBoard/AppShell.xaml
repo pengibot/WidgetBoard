@@ -9,8 +9,14 @@
     xmlns:pages="clr-namespace:WidgetBoard.Pages"
     Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate pages:BoardDetailsPage}" />
+    <TabBar>
+        <Tab Title="Boards">
+            <ShellContent ContentTemplate="{DataTemplate pages:BoardListPage}" />
+        </Tab>
+        <Tab Title="Settings">
+            <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
+        </Tab>
+    </TabBar>
 
     <Shell.FlyoutHeader>
         <Label 
