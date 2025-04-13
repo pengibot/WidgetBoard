@@ -63,5 +63,6 @@ public class BoardListPageViewModel : BaseViewModel
         {
             Boards.Add(newBoard);
         }
+        await Shell.Current.GoToAsync(RouteNames.BoardDetails);
     }
 }
