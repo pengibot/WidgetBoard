@@ -1,3 +1,7 @@
+using System.Collections;
+using WidgetBoard.Controls;
+using WidgetBoard.Views;
+
 namespace WidgetBoard.Layouts;
 
 public partial class BoardLayout
@@ -21,6 +25,28 @@ public partial class BoardLayout
         }
     }
 
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
+        nameof(ItemsSource),
+        typeof(IEnumerable),
+        typeof(BoardLayout));
+
+    public IEnumerable ItemsSource
+    {
+        get => (IEnumerable)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
+
+    public static readonly BindableProperty ItemTemplateSelectorProperty = BindableProperty.Create(
+        nameof(ItemTemplateSelector),
+        typeof(DataTemplateSelector),
+        typeof(BoardLayout));
+
+    public DataTemplateSelector ItemTemplateSelector
+    {
+        get => (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty);
+        set => SetValue(ItemTemplateSelectorProperty, value);
+    }
+
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
@@ -29,4 +55,30 @@ public partial class BoardLayout
             layoutManager.BindingContext = this.BindingContext;
         }
     }
+
+    private void OnWidgetsChildAdded(object sender, ElementEventArgs e)
+    {
+        if (e.Element is IWidgetView widgetView)
+        {
+            LayoutManager?.SetPosition(e.Element, widgetView.Position);
+        }
+    }
+
+    public void AddPlaceholder(Placeholder placeholder) => PlaceholderGrid.Children.Add(placeholder);
+
+    public void RemovePlaceholder(Placeholder placeholder) => PlaceholderGrid.Children.Remove(placeholder);
+
+    public void AddColumn(ColumnDefinition columnDefinition)
+    {
+        PlaceholderGrid.ColumnDefinitions.Add(columnDefinition);
+        WidgetGrid.ColumnDefinitions.Add(columnDefinition);
+    }
+
+    public void AddRow(RowDefinition rowDefinition)
+    {
+        PlaceholderGrid.RowDefinitions.Add(rowDefinition);
+        WidgetGrid.RowDefinitions.Add(rowDefinition);
+    }
+
+    public IReadOnlyList<Placeholder> Placeholders => PlaceholderGrid.Children.OfType<Placeholder>().ToList();
 }

@@ -23,6 +23,7 @@ public static class MauiProgram
 
         builder.Services.AddTransient<AppShell>();
         builder.Services.AddTransient<AppShellViewModel>();
+        builder.Services.AddSingleton<WidgetFactory>();
 
         AddPage<BoardDetailsPage, BoardDetailsPageViewModel>(builder.Services, RouteNames.BoardDetails);
         AddPage<BoardListPage, BoardListPageViewModel>(builder.Services, RouteNames.BoardList);
