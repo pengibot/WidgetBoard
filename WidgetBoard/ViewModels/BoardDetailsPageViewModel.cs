@@ -10,6 +10,7 @@ public class BoardDetailsPageViewModel : BaseViewModel
     private bool isFixed = true;
     private int numberOfColumns = 3;
     private int numberOfRows = 2;
+    private readonly ISemanticScreenReader semanticScreenReader;
 
     public string BoardName
     {
@@ -45,8 +46,10 @@ public class BoardDetailsPageViewModel : BaseViewModel
 
     public Command SaveCommand { get; }
 
-    public BoardDetailsPageViewModel()
+    public BoardDetailsPageViewModel(ISemanticScreenReader semanticScreenReader)
     {
+        this.semanticScreenReader = semanticScreenReader;
+
         CancelCommand = new Command(
             async () =>
             {
@@ -60,7 +63,7 @@ public class BoardDetailsPageViewModel : BaseViewModel
             () => !string.IsNullOrWhiteSpace(BoardName));
     }
 
-    private void Save()
+    private async void Save()
     {
         var board = new FixedBoard
         {
@@ -69,7 +72,14 @@ public class BoardDetailsPageViewModel : BaseViewModel
             NumberOfRows = NumberOfRows
         };
 
-        Shell.Current.GoToAsync("..");
+        semanticScreenReader.Announce($"A new board with the name {BoardName} was created successfully.");
+
+        await Shell.Current.GoToAsync(
+            RouteNames.FixedBoard,
+            new Dictionary<string, object> {
+                { "Board", board }
+            }
+        );
 
         BoardCreatedCompletionSource?.SetResult(board);
     }

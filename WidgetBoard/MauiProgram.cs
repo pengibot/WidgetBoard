@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using WidgetBoard.Pages;
 using WidgetBoard.ViewModels;
+using WidgetBoard.Views;
 
 namespace WidgetBoard;
 
@@ -29,6 +30,12 @@ public static class MauiProgram
         AddPage<BoardListPage, BoardListPageViewModel>(builder.Services, RouteNames.BoardList);
         AddPage<FixedBoardPage, FixedBoardPageViewModel>(builder.Services, RouteNames.FixedBoard);
         AddPage<SettingsPage, SettingsPageViewModel>(builder.Services, RouteNames.Settings);
+
+        WidgetFactory.RegisterWidget<ClockWidgetView, ClockWidgetViewModel>("Clock");
+        builder.Services.AddTransient<ClockWidgetView>();
+        builder.Services.AddTransient<ClockWidgetViewModel>();
+        builder.Services.AddSingleton<WidgetTemplateSelector>();
+        builder.Services.AddSingleton(SemanticScreenReader.Default);
 
         return builder.Build();
     }

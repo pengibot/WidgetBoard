@@ -1,14 +1,12 @@
 using WidgetBoard.ViewModels;
-
 namespace WidgetBoard.Views;
-
 public partial class ClockWidgetView : Label, IWidgetView
 {
-    public ClockWidgetView()
+    public ClockWidgetView(ClockWidgetViewModel clockWidgetViewModel)
     {
         InitializeComponent();
-        WidgetViewModel = new ClockWidgetViewModel();
-        BindingContext = WidgetViewModel;
+        WidgetViewModel = clockWidgetViewModel;
+        BindingContext = clockWidgetViewModel;
     }
 
     public IWidgetViewModel WidgetViewModel { get; set; }

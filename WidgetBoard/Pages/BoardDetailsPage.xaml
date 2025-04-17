@@ -16,9 +16,14 @@
             <VerticalStackLayout
                 Padding="20">
                 <Label
-                    Text="Name"
+                    Text="Enter the board name"
+                    x:Name="EnterBoardNameLabel"
                     FontAttributes="Bold" />
-                <Entry Text="{Binding Path=BoardName}" />
+                <Entry 
+                    Text="{Binding BoardName}"
+                    SemanticProperties.Description="{Binding Text, Source={x:Reference EnterBoardNameLabel}}"
+                    SemanticProperties.Hint="Provides a name that will be used to identify your widget board. 
+                    This is a required field."/>
                 <Label
                     Text="Layout"
                     FontAttributes="Bold" />

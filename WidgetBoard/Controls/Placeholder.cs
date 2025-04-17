@@ -11,6 +11,9 @@ public class Placeholder : Border
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
+
+        SemanticProperties.SetDescription(Content, "Tap to add a widget");
+        SemanticProperties.SetHint(Content, "Allows you to choose a widget that can be added to the board at this location.");
     }
 
     public int Position { get; set; }
