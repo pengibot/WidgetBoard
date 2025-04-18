@@ -14,10 +14,5 @@
         {
             return new Window(this.appShell);
         }
-
-        //protected override Window CreateWindow(IActivationState activationState)
-        //{
-        //    return new StateAwareWindow(MainPage);
-        //}
     }
 }
