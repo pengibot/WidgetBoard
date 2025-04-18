@@ -9,5 +9,11 @@ namespace WidgetBoard
             InitializeComponent();
             BindingContext = appShellViewModel;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ((AppShellViewModel)BindingContext).LoadBoards();
+        }
     }
 }

@@ -9,4 +9,10 @@ public partial class BoardListPage : ContentPage
         InitializeComponent();
         BindingContext = boardListPageViewModel;
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        ((BoardListPageViewModel)BindingContext).LoadBoards();
+    }
 }

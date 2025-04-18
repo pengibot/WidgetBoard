@@ -16,6 +16,7 @@
 
     <Shell.SearchHandler>
         <widgetBoard:BoardSearchHandler 
+            Boards="{Binding Boards}"
             Placeholder="Enter board name"
             ShowsResults="True">
             <SearchHandler.ItemTemplate>

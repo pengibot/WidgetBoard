@@ -1,29 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WidgetBoard.Data;
 using WidgetBoard.Models;
 
 namespace WidgetBoard.ViewModels;
 
 public class BoardListPageViewModel : BaseViewModel
 {
-    public BoardListPageViewModel()
-    {
-        Boards.Add(
-            new FixedBoard
-            {
-                Name = "My first board",
-                NumberOfColumns = 3,
-                NumberOfRows = 2
-            });
-
-        AddBoardCommand = new Command(OnAddBoard);
-    }
-
-    public ICommand AddBoardCommand { get; }
+    private readonly IBoardRepository boardRepository;
+    private FixedBoard? currentBoard;
 
     public ObservableCollection<FixedBoard> Boards { get; } = [];
 
-    private FixedBoard? currentBoard;
     public FixedBoard? CurrentBoard
     {
         get => currentBoard;
@@ -34,6 +22,32 @@ public class BoardListPageViewModel : BaseViewModel
             {
                 BoardSelected(value);
             }
+        }
+    }
+
+    public ICommand AddBoardCommand { get; }
+
+    public BoardListPageViewModel(IBoardRepository boardRepository)
+    {
+        this.boardRepository = boardRepository;
+        //Boards.Add(
+        //    new FixedBoard
+        //    {
+        //        Name = "My first board",
+        //        NumberOfColumns = 3,
+        //        NumberOfRows = 2
+        //    });
+
+        AddBoardCommand = new Command(OnAddBoard);
+    }
+
+    public void LoadBoards()
+    {
+        Boards.Clear();
+        var boards = this.boardRepository.ListBoards();
+        foreach (var board in boards)
+        {
+            Boards.Add(board);
         }
     }
 

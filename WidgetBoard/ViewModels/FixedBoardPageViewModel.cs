@@ -1,27 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WidgetBoard.Data;
 using WidgetBoard.Models;
 
 namespace WidgetBoard.ViewModels;
 
 public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
 {
-    public FixedBoardPageViewModel(
-        WidgetTemplateSelector widgetTemplateSelector,
-        WidgetFactory widgetFactory)
-    {
-        this.widgetFactory = widgetFactory;
-        WidgetTemplateSelector = widgetTemplateSelector;
-        Widgets = [];
-
-        AddWidgetCommand = new Command(OnAddWidget);
-        AddNewWidgetCommand = new Command<int>(index =>
-        {
-            IsAddingWidget = true;
-            addingPosition = index;
-        });
-    }
-
+    #region Variables
+    private FixedBoard? board;
+    private readonly IBoardRepository boardRepository;
     private string boardName = string.Empty;
     private int numberOfColumns;
     private int numberOfRows;
@@ -29,6 +17,9 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
     private string? selectedWidget;
     private bool isAddingWidget;
     private readonly WidgetFactory widgetFactory;
+    #endregion
+
+    #region Properties
 
     public IList<string> AvailableWidgets => widgetFactory.AvailableWidgets;
 
@@ -46,7 +37,6 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
         get => selectedWidget;
         set => SetProperty(ref selectedWidget, value);
     }
-
 
     public string BoardName
     {
@@ -69,14 +59,61 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
     public ObservableCollection<IWidgetViewModel> Widgets { get; }
 
     public WidgetTemplateSelector WidgetTemplateSelector { get; }
+    #endregion
+
+    public FixedBoardPageViewModel(
+        WidgetTemplateSelector widgetTemplateSelector,
+        WidgetFactory widgetFactory,
+        IBoardRepository boardRepository)
+    {
+        this.widgetFactory = widgetFactory;
+        this.boardRepository = boardRepository;
+        WidgetTemplateSelector = widgetTemplateSelector;
+        Widgets = [];
+
+        AddWidgetCommand = new Command(OnAddWidget);
+        AddNewWidgetCommand = new Command<int>(index =>
+        {
+            IsAddingWidget = true;
+            addingPosition = index;
+        });
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var board = (FixedBoard)query["Board"];
+        var boardParameter = query["Board"] as FixedBoard;
+        board = boardRepository.LoadBoard(boardParameter.Id);
+        if (board is not null)
+        {
+            BoardName = board.Name;
+            NumberOfColumns = board.NumberOfColumns;
+            NumberOfRows = board.NumberOfRows;
+            foreach (var boardWidget in board.BoardWidgets)
+            {
+                var widgetViewModel = widgetFactory.CreateWidgetViewModel(boardWidget.WidgetType);
+                if (widgetViewModel is null)
+                {
+                    continue;
+                }
+                widgetViewModel.Position = boardWidget.Position;
+                Widgets.Add(widgetViewModel);
+            }
+        }
+    }
 
-        BoardName = board.Name;
-        NumberOfColumns = board.NumberOfColumns;
-        NumberOfRows = board.NumberOfRows;
+    private void SaveWidget(IWidgetViewModel widgetViewModel)
+    {
+        if (board is null)
+        {
+            return;
+        }
+        var boardWidget = new BoardWidget
+        {
+            BoardId = board.Id,
+            Position = widgetViewModel.Position,
+            WidgetType = widgetViewModel.Type
+        };
+        boardRepository.CreateBoardWidget(boardWidget);
     }
 
     private void OnAddWidget()
@@ -92,6 +129,8 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
         {
             widgetViewModel.Position = addingPosition;
             Widgets.Add(widgetViewModel);
+
+            SaveWidget(widgetViewModel);
         }
 
         IsAddingWidget = false;

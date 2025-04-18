@@ -1,24 +1,20 @@
-﻿using WidgetBoard.Models;
+﻿using System.Collections.ObjectModel;
+using WidgetBoard.Models;
 
 namespace WidgetBoard;
 
 public class BoardSearchHandler : SearchHandler
 {
-    private readonly IList<FixedBoard> boards =
-    [
-        new FixedBoard
-        {
-            Name = "My first board"
-        },
-        new FixedBoard
-        {
-            Name = "My second board"
-        },
-        new FixedBoard
-        {
-            Name = "My third board",
-        }
-    ];
+    public ObservableCollection<FixedBoard> Boards
+    {
+        get => (ObservableCollection<FixedBoard>)GetValue(BoardsProperty);
+        set => SetValue(BoardsProperty, value);
+    }
+
+    public static readonly BindableProperty BoardsProperty = BindableProperty.Create(
+        nameof(Boards),
+        typeof(ObservableCollection<FixedBoard>),
+        typeof(BoardSearchHandler));
 
     protected override void OnQueryChanged(string oldValue, string newValue)
     {
@@ -30,7 +26,7 @@ public class BoardSearchHandler : SearchHandler
         }
         else
         {
-            ItemsSource = boards
+            ItemsSource = Boards
                 .Where(board => board.Name.Contains(newValue, StringComparison.CurrentCultureIgnoreCase))
                 .ToList<FixedBoard>();
         }

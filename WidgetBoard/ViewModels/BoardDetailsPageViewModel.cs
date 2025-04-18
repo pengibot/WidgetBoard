@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using WidgetBoard.Data;
 using WidgetBoard.Models;
 
 namespace WidgetBoard.ViewModels;
@@ -11,6 +12,7 @@ public class BoardDetailsPageViewModel : BaseViewModel
     private int numberOfColumns = 3;
     private int numberOfRows = 2;
     private readonly ISemanticScreenReader semanticScreenReader;
+    private readonly IBoardRepository boardRepository;
 
     public string BoardName
     {
@@ -46,9 +48,12 @@ public class BoardDetailsPageViewModel : BaseViewModel
 
     public Command SaveCommand { get; }
 
-    public BoardDetailsPageViewModel(ISemanticScreenReader semanticScreenReader)
+
+    public BoardDetailsPageViewModel(ISemanticScreenReader semanticScreenReader,
+        IBoardRepository boardRepository)
     {
         this.semanticScreenReader = semanticScreenReader;
+        this.boardRepository = boardRepository;
 
         CancelCommand = new Command(
             async () =>
@@ -71,6 +76,8 @@ public class BoardDetailsPageViewModel : BaseViewModel
             NumberOfColumns = NumberOfColumns,
             NumberOfRows = NumberOfRows
         };
+
+        this.boardRepository.CreateBoard(board);
 
         semanticScreenReader.Announce($"A new board with the name {BoardName} was created successfully.");
 
