@@ -4,9 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:WidgetBoard.ViewModels"
+    xmlns:behaviors="clr-namespace:WidgetBoard.Behaviors"
     Shell.PresentationMode="ModalAnimated"
     x:Class="WidgetBoard.Pages.BoardDetailsPage"
     x:DataType="viewModels:BoardDetailsPageViewModel">
+    <ContentPage.Resources>
+        <Style TargetType="Entry"
+               x:Key="ValidEntryStyle">
+            <Setter Property="BackgroundColor"
+                    Value="Transparent" />
+        </Style>
+        <Style TargetType="Entry"
+               x:Key="InvalidEntryStyle">
+            <Setter Property="BackgroundColor"
+                    Value="Red" />
+        </Style>
+    </ContentPage.Resources>
     <Border
         MinimumWidthRequest="300"
         HorizontalOptions="Center"
@@ -19,11 +32,15 @@
                     Text="Enter the board name"
                     x:Name="EnterBoardNameLabel"
                     FontAttributes="Bold" />
-                <Entry 
-                    Text="{Binding BoardName}"
-                    SemanticProperties.Description="{Binding Text, Source={x:Reference EnterBoardNameLabel}}"
-                    SemanticProperties.Hint="Provides a name that will be used to identify your widget board. 
-                    This is a required field."/>
+                <Entry Text="{Binding BoardName}"
+                       SemanticProperties.Description="{Binding Text, Source={x:Reference EnterBoardNameLabel}}"
+                       SemanticProperties.Hint="Provides a name that will be used to identify your widget board. 
+                    This is a required field.">
+                    <Entry.Behaviors>
+                        <behaviors:RequiredStringValidationBehavior ValidStyle="{StaticResource ValidEntryStyle}"
+                                                                    InvalidStyle="{StaticResource InvalidEntryStyle}" />
+                    </Entry.Behaviors>
+                </Entry>
                 <Label
                     Text="Layout"
                     FontAttributes="Bold" />
