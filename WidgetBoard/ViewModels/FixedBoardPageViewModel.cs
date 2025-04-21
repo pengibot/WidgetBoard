@@ -17,6 +17,7 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
     private string? selectedWidget;
     private bool isAddingWidget;
     private readonly WidgetFactory widgetFactory;
+    private readonly IPreferences preferences;
     #endregion
 
     #region Properties
@@ -64,9 +65,11 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
     public FixedBoardPageViewModel(
         WidgetTemplateSelector widgetTemplateSelector,
         WidgetFactory widgetFactory,
-        IBoardRepository boardRepository)
+        IBoardRepository boardRepository,
+        IPreferences preferences)
     {
         this.widgetFactory = widgetFactory;
+        this.preferences = preferences;
         this.boardRepository = boardRepository;
         WidgetTemplateSelector = widgetTemplateSelector;
         Widgets = [];
@@ -85,6 +88,7 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
         board = boardRepository.LoadBoard(boardParameter.Id);
         if (board is not null)
         {
+            preferences.Set("LastUsedBoardId", board.Id);
             BoardName = board.Name;
             NumberOfColumns = board.NumberOfColumns;
             NumberOfRows = board.NumberOfRows;

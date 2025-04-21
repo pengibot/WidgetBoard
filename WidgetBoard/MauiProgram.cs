@@ -39,7 +39,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<WidgetTemplateSelector>();
         builder.Services.AddSingleton(SemanticScreenReader.Default);
         builder.Services.AddSingleton(FileSystem.Current);
-        builder.Services.AddTransient<IBoardRepository, SqliteBoardRepository>();
+        //builder.Services.AddTransient<IBoardRepository, SqliteBoardRepository>();
+        builder.Services.AddTransient<IBoardRepository, LiteDBBoardRepository>();
+        builder.Services.AddSingleton(Preferences.Default);
 
         return builder.Build();
     }

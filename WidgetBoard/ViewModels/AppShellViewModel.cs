@@ -7,6 +7,8 @@ namespace WidgetBoard.ViewModels;
 public class AppShellViewModel : BaseViewModel
 {
     private readonly IBoardRepository boardRepository;
+    private readonly IPreferences preferences;
+    private readonly IDispatcher dispatcher;
     private FixedBoard? currentBoard;
 
     public ObservableCollection<FixedBoard> Boards { get; } = [];
@@ -24,9 +26,13 @@ public class AppShellViewModel : BaseViewModel
         }
     }
 
-    public AppShellViewModel(IBoardRepository boardRepository)
+    public AppShellViewModel(IBoardRepository boardRepository,
+        IPreferences preferences,
+        IDispatcher dispatcher)
     {
         this.boardRepository = boardRepository;
+        this.preferences = preferences;
+        this.dispatcher = dispatcher;
 
         //Boards.Add(
         //    new FixedBoard
@@ -41,9 +47,25 @@ public class AppShellViewModel : BaseViewModel
     {
         Boards.Clear();
         var boards = this.boardRepository.ListBoards();
+
+        var lastUsedBoardId = preferences.Get("LastUsedBoardId", -1);
+        FixedBoard? lastUsedBoard = null;
+
         foreach (var board in boards)
         {
             Boards.Add(board);
+            if (lastUsedBoardId == board.Id)
+            {
+                lastUsedBoard = board;
+            }
+        }
+
+        if (lastUsedBoard is not null)
+        {
+            dispatcher.Dispatch(() =>
+            {
+                BoardSelected(lastUsedBoard);
+            });
         }
     }
 
