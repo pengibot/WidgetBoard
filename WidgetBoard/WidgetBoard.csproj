@@ -24,7 +24,7 @@
 		<ApplicationTitle>WidgetBoard</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>uk.pengibot.widgetboard</ApplicationId>
+		<ApplicationId>uk.pengibot.widgetsboard</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
