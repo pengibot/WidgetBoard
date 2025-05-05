@@ -7,6 +7,7 @@ public class SettingsPageViewModel : BaseViewModel
 {
 
     private string lastUsedBoard = string.Empty;
+    private string openWeatherApiToken = string.Empty;
 
     public string LastUsedBoard
     {
@@ -16,7 +17,18 @@ public class SettingsPageViewModel : BaseViewModel
 
     public ICommand ClearLastUsedBoardCommand { get; }
 
-    public SettingsPageViewModel(IPreferences preferences, IBoardRepository boardRepository)
+    public string OpenWeatherApiToken
+    {
+        get => openWeatherApiToken;
+        set => SetProperty(ref openWeatherApiToken, value);
+    }
+
+    public ICommand SaveApiTokenCommand { get; }
+
+    public SettingsPageViewModel(
+        IPreferences preferences,
+        IBoardRepository boardRepository,
+        ISecureStorage secureStorage)
     {
         var lastUsedBoardId = preferences.Get("LastUsedBoardId", -1);
 
@@ -30,6 +42,14 @@ public class SettingsPageViewModel : BaseViewModel
             preferences.Remove("LastUsedBoardId");
             LastUsedBoard = string.Empty;
         });
+
+        SaveApiTokenCommand = new Command(async () =>
+        {
+            await secureStorage.SetAsync("OpenWeatherApiToken", OpenWeatherApiToken);
+        });
+
+        OpenWeatherApiToken = secureStorage.GetAsync("OpenWeatherApiToken")
+            .GetAwaiter().GetResult() ?? string.Empty;
     }
 
 }

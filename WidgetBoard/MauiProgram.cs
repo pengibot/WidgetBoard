@@ -42,6 +42,7 @@ public static class MauiProgram
         //builder.Services.AddTransient<IBoardRepository, SqliteBoardRepository>();
         builder.Services.AddTransient<IBoardRepository, LiteDBBoardRepository>();
         builder.Services.AddSingleton(Preferences.Default);
+        builder.Services.AddSingleton(SecureStorage.Default);
 
         return builder.Build();
     }

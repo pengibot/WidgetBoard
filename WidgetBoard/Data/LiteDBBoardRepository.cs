@@ -12,7 +12,12 @@ public class LiteDBBoardRepository : IBoardRepository
     public LiteDBBoardRepository(IFileSystem fileSystem)
     {
         var dbPath = Path.Combine(fileSystem.AppDataDirectory, "widgetboard_litedb.db");
-        database = new LiteDatabase(dbPath);
+        var connectionString = new ConnectionString
+        {
+            Filename = dbPath,
+            Connection = ConnectionType.Shared
+        };
+        database = new LiteDatabase(connectionString);
 
         boardCollection = database.GetCollection<FixedBoard>("Boards");
         boardWidgetCollection = database.GetCollection<BoardWidget>("BoardWidgets");
