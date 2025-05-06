@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WidgetBoard.Communications;
 using WidgetBoard.Data;
 using WidgetBoard.Pages;
 using WidgetBoard.ViewModels;
@@ -43,6 +44,12 @@ public static class MauiProgram
         builder.Services.AddTransient<IBoardRepository, LiteDBBoardRepository>();
         builder.Services.AddSingleton(Preferences.Default);
         builder.Services.AddSingleton(SecureStorage.Default);
+
+        builder.Services.AddHttpClient<WeatherForecastService>();
+        builder.Services.AddSingleton<IWeatherForecastService, WeatherForecastService>();
+        WidgetFactory.RegisterWidget<WeatherWidgetView, WeatherWidgetViewModel>(WeatherWidgetViewModel.DisplayName);
+        builder.Services.AddTransient<WeatherWidgetView>();
+        builder.Services.AddTransient<WeatherWidgetViewModel>();
 
         return builder.Build();
     }
