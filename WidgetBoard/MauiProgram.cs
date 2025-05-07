@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Http.Resilience;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Refit;
 using WidgetBoard.Communications;
 using WidgetBoard.Data;
 using WidgetBoard.Pages;
@@ -45,8 +48,20 @@ public static class MauiProgram
         builder.Services.AddSingleton(Preferences.Default);
         builder.Services.AddSingleton(SecureStorage.Default);
 
-        builder.Services.AddHttpClient<WeatherForecastService>();
-        builder.Services.AddSingleton<IWeatherForecastService, WeatherForecastService>();
+        builder.Services.AddHttpClient<IWeatherForecastService>()
+            .AddStandardResilienceHandler(static options =>
+            {
+                options.Retry = new HttpRetryStrategyOptions
+                {
+                    BackoffType = DelayBackoffType.Exponential,
+                    MaxRetryAttempts = 3,
+                    UseJitter = true,
+                    Delay = TimeSpan.FromSeconds(2)
+                };
+            });
+        builder.Services
+            .AddRefitClient<IWeatherForecastService>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5"));
         WidgetFactory.RegisterWidget<WeatherWidgetView, WeatherWidgetViewModel>(WeatherWidgetViewModel.DisplayName);
         builder.Services.AddTransient<WeatherWidgetView>();
         builder.Services.AddTransient<WeatherWidgetViewModel>();

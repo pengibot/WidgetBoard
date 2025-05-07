@@ -1,4 +1,5 @@
-﻿using WidgetBoard.Communications;
+﻿using System.Windows.Input;
+using WidgetBoard.Communications;
 
 namespace WidgetBoard.ViewModels;
 
@@ -12,6 +13,7 @@ public class WeatherWidgetViewModel : BaseViewModel, IWidgetViewModel
     private string iconUrl = string.Empty;
     private double temperature;
     private string weather = string.Empty;
+    private State state;
 
     public string IconUrl
     {
@@ -31,10 +33,21 @@ public class WeatherWidgetViewModel : BaseViewModel, IWidgetViewModel
         set => SetProperty(ref weather, value);
     }
 
+    public State State
+    {
+        get => state;
+        set => SetProperty(ref state, value);
+    }
+
+    public ICommand LoadWeatherCommand { get; }
+
     public WeatherWidgetViewModel(IWeatherForecastService weatherForecastService, ISecureStorage secureStorage)
     {
         this.weatherForecastService = weatherForecastService;
         this.secureStorage = secureStorage;
+
+        LoadWeatherCommand = new Command(async () => await LoadWeatherForecast());
+
         Task.Run(async () => await LoadWeatherForecast());
     }
 
@@ -47,16 +60,28 @@ public class WeatherWidgetViewModel : BaseViewModel, IWidgetViewModel
             return;
         }
 
-        var forecast = await weatherForecastService.
-            GetForecast(20.798363, -156.331924, apiKey);
-
-        if (forecast?.Main is null)
+        try
         {
-            return;
-        }
+            State = State.Loading;
 
-        Temperature = forecast.Main.Temperature;
-        Weather = forecast.Weather.First().Main;
-        IconUrl = forecast.Weather.First().IconUrl;
+            var forecast = await weatherForecastService.
+                GetForecast(20.798363, -156.331924, apiKey);
+
+            if (forecast?.Main is null)
+            {
+                State = State.Error;
+                return;
+            }
+
+            Temperature = forecast.Main.Temperature;
+            Weather = forecast.Weather.First().Main;
+            IconUrl = forecast.Weather.First().IconUrl;
+
+            State = State.Loaded;
+        }
+        catch (Exception)
+        {
+            State = State.Error;
+        }
     }
 }

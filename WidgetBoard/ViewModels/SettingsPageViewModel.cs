@@ -8,6 +8,7 @@ public class SettingsPageViewModel : BaseViewModel
 
     private string lastUsedBoard = string.Empty;
     private string openWeatherApiToken = string.Empty;
+    private ISecureStorage secureStorage;
 
     public string LastUsedBoard
     {
@@ -30,6 +31,8 @@ public class SettingsPageViewModel : BaseViewModel
         IBoardRepository boardRepository,
         ISecureStorage secureStorage)
     {
+        this.secureStorage = secureStorage;
+
         var lastUsedBoardId = preferences.Get("LastUsedBoardId", -1);
 
         if (lastUsedBoardId != -1)
@@ -48,8 +51,12 @@ public class SettingsPageViewModel : BaseViewModel
             await secureStorage.SetAsync("OpenWeatherApiToken", OpenWeatherApiToken);
         });
 
-        OpenWeatherApiToken = secureStorage.GetAsync("OpenWeatherApiToken")
-            .GetAwaiter().GetResult() ?? string.Empty;
+        //OpenWeatherApiToken = await secureStorage.GetAsync("OpenWeatherApiToken") ?? string.Empty;
+    }
+
+    public async Task InitializeAsync()
+    {
+        OpenWeatherApiToken = await secureStorage.GetAsync("OpenWeatherApiToken") ?? string.Empty;
     }
 
 }
