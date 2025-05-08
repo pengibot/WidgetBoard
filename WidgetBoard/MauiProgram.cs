@@ -5,6 +5,7 @@ using Refit;
 using WidgetBoard.Communications;
 using WidgetBoard.Data;
 using WidgetBoard.Pages;
+using WidgetBoard.Services;
 using WidgetBoard.ViewModels;
 using WidgetBoard.Views;
 
@@ -65,6 +66,8 @@ public static class MauiProgram
         WidgetFactory.RegisterWidget<WeatherWidgetView, WeatherWidgetViewModel>(WeatherWidgetViewModel.DisplayName);
         builder.Services.AddTransient<WeatherWidgetView>();
         builder.Services.AddTransient<WeatherWidgetViewModel>();
+        builder.Services.AddSingleton(Geolocation.Default);
+        builder.Services.AddSingleton<ILocationService, LocationService>();
 
         return builder.Build();
     }

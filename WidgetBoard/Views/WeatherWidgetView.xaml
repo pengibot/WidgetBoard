@@ -15,6 +15,9 @@
         <converters:IsEqualToStateConverter 
             x:Key="HasErrorConverter"
             State="Error" />
+        <converters:IsEqualToStateConverter 
+            x:Key="HasPermissionErrorConverter"
+            State="PermissionError" />
     </ContentView.Resources>
     <VerticalStackLayout>
         <Label Text="Today"
@@ -30,39 +33,34 @@
             <Label Text="Loading weather data" />
         </VerticalStackLayout>
         <!-- Loaded -->
-        <VerticalStackLayout 
-            IsVisible="{Binding State, Converter={StaticResource HasLoadedConverter}}">
-            <Label 
-                VerticalOptions="Center"
-                HorizontalOptions="Center">
+        <VerticalStackLayout IsVisible="{Binding State, Converter={StaticResource HasLoadedConverter}}">
+            <Label VerticalOptions="Center"
+                   HorizontalOptions="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span 
-                            Text="{Binding Temperature, StringFormat='{0:F1}'}"
-                             FontSize="60" />
-                        <Span 
-                            Text="°C" />
+                        <Span Text="{Binding Temperature, StringFormat='{0:F1}'}"
+                              FontSize="60" />
+                        <Span Text="°C" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Label 
-                Text="{Binding Weather}"
-                FontSize="20"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
-            <Image 
-                Source="{Binding IconUrl}"
-                WidthRequest="100"
-                HeightRequest="100" />
+            <Label Text="{Binding Weather}"
+                   FontSize="20"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+            <Image Source="{Binding IconUrl}"
+                   WidthRequest="100"
+                   HeightRequest="100" />
         </VerticalStackLayout>
         <!-- Error -->
-        <VerticalStackLayout 
-            IsVisible="{Binding State, Converter={StaticResource HasErrorConverter}}">
-            <Label 
-                Text="Unable to load weather data" />
-            <Button 
-                Text="Retry"
-                Command="{Binding LoadWeatherCommand}" />
+        <VerticalStackLayout IsVisible="{Binding State, Converter={StaticResource HasErrorConverter}}">
+            <Label Text="Unable to load weather data" />
+            <Button Text="Retry"
+                    Command="{Binding LoadWeatherCommand}" />
+        </VerticalStackLayout>
+        <!-- PermissionError -->
+        <VerticalStackLayout IsVisible="{Binding State, Converter={StaticResource HasPermissionErrorConverter}}">
+            <Label Text="Unable to retrieve location data" />
         </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentView>
