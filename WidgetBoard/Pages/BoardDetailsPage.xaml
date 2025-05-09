@@ -50,9 +50,8 @@
                         Content="Fixed"
                         IsChecked="{Binding IsFixed}" />
                 </HorizontalStackLayout>
-                <VerticalStackLayout
+                <VerticalStackLayout 
                     IsVisible="{Binding IsChecked, Source={x:Reference FixedRadioButton}}">
-
                     <Label
                         Text="Number of Columns"
                         FontAttributes="Bold" />

@@ -15,6 +15,24 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("SelectAllText", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.SetSelectAllOnFocus(true);
+#elif IOS || MACCATALYST
+            handler.PlatformView.EditingDidBegin += (s, e) =>
+            {
+                handler.PlatformView.PerformSelector(new ObjCRuntime.
+                Selector("selectAll"), null, 0.0f);
+            };
+#elif WINDOWS
+            handler.PlatformView.GotFocus += (s, e) =>
+            {
+                handler.PlatformView.SelectAll();
+            };
+#endif
+        });
+
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
