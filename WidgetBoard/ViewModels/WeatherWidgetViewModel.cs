@@ -60,7 +60,7 @@ public class WeatherWidgetViewModel : BaseViewModel, IWidgetViewModel
         Task.Run(async () => await LoadWeatherForecast());
     }
 
-    private async Task LoadWeatherForecast()
+    public async Task LoadWeatherForecast()
     {
         var apiKey = await this.secureStorage.GetAsync("OpenWeatherApiToken");
 
