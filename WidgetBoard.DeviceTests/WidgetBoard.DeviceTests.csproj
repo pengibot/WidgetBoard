@@ -51,4 +51,12 @@
 	  <ProjectReference Include="..\WidgetBoard\WidgetBoard.csproj" />
 	</ItemGroup>
 
+  <PropertyGroup>
+    <MauiEnableResizetizer>false</MauiEnableResizetizer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiImage Remove="Resources/AppIcon/appicon.png" />
+  </ItemGroup>
+
 </Project>
