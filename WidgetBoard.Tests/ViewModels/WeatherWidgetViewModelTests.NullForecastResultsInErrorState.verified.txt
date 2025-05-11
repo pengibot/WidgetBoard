@@ -1,0 +1,7 @@
+﻿{
+  Type: Weather,
+  IconUrl: ,
+  Weather: ,
+  State: Error,
+  LoadWeatherCommand: {}
+}

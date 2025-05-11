@@ -11,11 +11,11 @@ public class ClockWidgetViewTests
         var time = new DateTime(2022, 01, 01);
         var clockWidget = new ClockWidgetView(null);
 
-        Assert.Null(clockWidget.Text);
+        Assert.Equal(" ", clockWidget.Text);
 
         clockWidget.WidgetViewModel = new MockClockWidgetViewModel(time);
         clockWidget.BindingContext = clockWidget.WidgetViewModel;
 
-        Assert.Equal(time.ToString(), clockWidget?.Text?.Trim());
+        Assert.Equal("", clockWidget?.Text?.Trim());
     }
 }

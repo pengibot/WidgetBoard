@@ -1,0 +1,8 @@
+﻿{
+  Type: Weather,
+  IconUrl: https://openweathermap.org/img/wn/abc.png@2x.png,
+  Temperature: 18.0,
+  Weather: Sunshine,
+  State: Loaded,
+  LoadWeatherCommand: {}
+}

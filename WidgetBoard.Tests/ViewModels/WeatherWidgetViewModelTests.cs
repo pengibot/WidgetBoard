@@ -3,8 +3,12 @@ using WidgetBoard.ViewModels;
 
 namespace WidgetBoard.Tests.ViewModels;
 
-public class WeatherWidgetViewModelTests
+public class WeatherWidgetViewModelTests : VerifyBase
 {
+    public WeatherWidgetViewModelTests() : base()
+    {
+    }
+
     [Fact]
     public async Task NullLocationResultsInPermissionErrorState()
     {
@@ -19,8 +23,9 @@ public class WeatherWidgetViewModelTests
 
         await viewModel.LoadWeatherForecast();
 
-        Assert.Equal(State.PermissionError, viewModel.State);
-        Assert.Equal(viewModel.Weather, string.Empty);
+        await Verify(viewModel);
+        //Assert.Equal(State.PermissionError, viewModel.State);
+        //Assert.Equal(viewModel.Weather, string.Empty);
     }
 
     [Fact]
@@ -38,8 +43,9 @@ public class WeatherWidgetViewModelTests
 
         await viewModel.LoadWeatherForecast();
 
-        Assert.Equal(State.Error, viewModel.State);
-        Assert.Equal(viewModel.Weather, string.Empty);
+        await Verify(viewModel);
+        //Assert.Equal(State.Error, viewModel.State);
+        //Assert.Equal(viewModel.Weather, string.Empty);
     }
 
     [Fact]
@@ -73,8 +79,9 @@ public class WeatherWidgetViewModelTests
 
         await viewModel.LoadWeatherForecast();
 
-        Assert.Equal(State.Loaded, viewModel.State);
-        Assert.Equal("Sunshine", viewModel.Weather);
+        await Verify(viewModel);
+        //Assert.Equal(State.Loaded, viewModel.State);
+        //Assert.Equal("Sunshine", viewModel.Weather);
     }
 }
 
