@@ -16,6 +16,6 @@ public class ClockWidgetViewTests
         clockWidget.WidgetViewModel = new MockClockWidgetViewModel(time);
         clockWidget.BindingContext = clockWidget.WidgetViewModel;
 
-        Assert.Equal(time.ToString(), clockWidget.Text.Trim());
+        Assert.Equal(time.ToString(), clockWidget?.Text?.Trim());
     }
 }

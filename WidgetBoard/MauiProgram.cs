@@ -85,7 +85,7 @@ public static class MauiProgram
         builder.Services.AddTransient<WeatherWidgetView>();
         builder.Services.AddTransient<WeatherWidgetViewModel>();
         builder.Services.AddSingleton(Geolocation.Default);
-        builder.Services.AddSingleton<ILocationService, LocationService>();
+        builder.Services.AddSingleton<ILocationService, PlatformLocationService>();
 
         return builder.Build();
     }

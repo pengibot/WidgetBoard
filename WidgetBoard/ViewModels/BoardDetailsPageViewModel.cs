@@ -11,8 +11,8 @@ public class BoardDetailsPageViewModel : BaseViewModel
     private bool isFixed = true;
     private int numberOfColumns = 3;
     private int numberOfRows = 2;
-    private readonly ISemanticScreenReader semanticScreenReader;
-    private readonly IBoardRepository boardRepository;
+    private readonly ISemanticScreenReader? semanticScreenReader;
+    private readonly IBoardRepository? boardRepository;
 
     public string BoardName
     {
@@ -49,8 +49,8 @@ public class BoardDetailsPageViewModel : BaseViewModel
     public Command SaveCommand { get; }
 
 
-    public BoardDetailsPageViewModel(ISemanticScreenReader semanticScreenReader,
-        IBoardRepository boardRepository)
+    public BoardDetailsPageViewModel(ISemanticScreenReader? semanticScreenReader,
+        IBoardRepository? boardRepository)
     {
         this.semanticScreenReader = semanticScreenReader;
         this.boardRepository = boardRepository;
@@ -77,9 +77,9 @@ public class BoardDetailsPageViewModel : BaseViewModel
             NumberOfRows = NumberOfRows
         };
 
-        this.boardRepository.CreateBoard(board);
+        this.boardRepository?.CreateBoard(board);
 
-        semanticScreenReader.Announce($"A new board with the name {BoardName} was created successfully.");
+        semanticScreenReader?.Announce($"A new board with the name {BoardName} was created successfully.");
 
         await Shell.Current.GoToAsync(
             RouteNames.FixedBoard,

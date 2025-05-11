@@ -84,23 +84,25 @@ public class FixedBoardPageViewModel : BaseViewModel, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var boardParameter = query["Board"] as FixedBoard;
-        board = boardRepository.LoadBoard(boardParameter.Id);
-        if (board is not null)
+        if (query.TryGetValue("Board", out var boardParameter) && boardParameter is FixedBoard fixedBoard)
         {
-            preferences.Set("LastUsedBoardId", board.Id);
-            BoardName = board.Name;
-            NumberOfColumns = board.NumberOfColumns;
-            NumberOfRows = board.NumberOfRows;
-            foreach (var boardWidget in board.BoardWidgets)
+            board = boardRepository.LoadBoard(fixedBoard.Id);
+            if (board is not null)
             {
-                var widgetViewModel = widgetFactory.CreateWidgetViewModel(boardWidget.WidgetType);
-                if (widgetViewModel is null)
+                preferences.Set("LastUsedBoardId", board.Id);
+                BoardName = board.Name;
+                NumberOfColumns = board.NumberOfColumns;
+                NumberOfRows = board.NumberOfRows;
+                foreach (var boardWidget in board.BoardWidgets)
                 {
-                    continue;
+                    var widgetViewModel = widgetFactory.CreateWidgetViewModel(boardWidget.WidgetType);
+                    if (widgetViewModel is null)
+                    {
+                        continue;
+                    }
+                    widgetViewModel.Position = boardWidget.Position;
+                    Widgets.Add(widgetViewModel);
                 }
-                widgetViewModel.Position = boardWidget.Position;
-                Widgets.Add(widgetViewModel);
             }
         }
     }

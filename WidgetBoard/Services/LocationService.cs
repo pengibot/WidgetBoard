@@ -2,12 +2,13 @@
 
 public class LocationService : ILocationService
 {
-    private readonly IGeolocation geolocation;
-
     public LocationService(IGeolocation geolocation)
     {
         this.geolocation = geolocation;
     }
+
+
+    private readonly IGeolocation geolocation;
 
     public async Task<Location?> GetLocationAsync()
     {
@@ -22,10 +23,10 @@ public class LocationService : ILocationService
         });
     }
 
+
     private async Task<PermissionStatus> CheckAndRequestLocationPermission()
     {
         PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-
         if (status == PermissionStatus.Granted)
         {
             return status;
@@ -47,4 +48,5 @@ public class LocationService : ILocationService
 
         return status;
     }
+
 }

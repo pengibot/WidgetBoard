@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetBoard", "WidgetBoard\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetBoard.Tests", "WidgetBoard.Tests\WidgetBoard.Tests.csproj", "{030B7C67-A252-430B-AB7D-9FB8F455DEDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WidgetBoard.DeviceTests", "WidgetBoard.DeviceTests\WidgetBoard.DeviceTests.csproj", "{2FAFC4D7-EB34-C60E-F428-5B8C73024AFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{030B7C67-A252-430B-AB7D-9FB8F455DEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{030B7C67-A252-430B-AB7D-9FB8F455DEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{030B7C67-A252-430B-AB7D-9FB8F455DEDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FAFC4D7-EB34-C60E-F428-5B8C73024AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FAFC4D7-EB34-C60E-F428-5B8C73024AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FAFC4D7-EB34-C60E-F428-5B8C73024AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FAFC4D7-EB34-C60E-F428-5B8C73024AFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
