@@ -9,7 +9,7 @@ public partial class WeatherWidgetView : ContentView, IWidgetView
         InitializeComponent();
     }
 
-    public IWidgetViewModel WidgetViewModel
+    public IWidgetViewModel? WidgetViewModel
     {
         get => (IWidgetViewModel)BindingContext;
         set => BindingContext = value;
