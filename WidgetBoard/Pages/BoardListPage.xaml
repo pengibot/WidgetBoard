@@ -10,7 +10,9 @@
              Title="My boards">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddBoardCommand}" />
+        <ToolbarItem Text="Add"
+                     AutomationId="AddBoardButton"
+                     Command="{Binding AddBoardCommand}" />
     </ContentPage.ToolbarItems>
 
 
