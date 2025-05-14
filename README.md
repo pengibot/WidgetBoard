@@ -21,12 +21,21 @@ If it is installed, you may have to set the environment variables to point to it
 set JAVA_HOME to C:\Program Files\Java\jdk-24 (or wherever yours is installed)
 set PATH to include %JAVA_HOME%\bin
 
+* You may have to restart Visual Studio or the Command Prompt for it to pick up these changes *
+
 ## Publish Android
 
+Navigate to your .csproj file directory and issue the following commands to generate a keystore and aab
+
 # Generate Keystore file
+
+Running the following will generate a keystore that can be used to sign the Android App
 
 keytool -genkeypair -v -keystore {filename}.keystore -alias {keyname} -keyalg RSA -keysize 2048 -validity 10000
 
 # Generate Android Bundle
 
-dotnet publish ./WidgetBoard/WidgetBoard.csproj --framework net8.0-android34.0 -p:ApplicationVersion="1" -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="{filename}.keystore"
+To create and Android Bundle signed with the certificate, run the following
+
+dotnet publish ./WidgetBoard/WidgetBoard.csproj --framework net8.0-android34.0 -p:ApplicationVersion="1" -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="{filename}.keystore" -p:AndroidSigningKeyAlias={keyname} -p:AndroidSigningKeyPass="{keypassword}" -p:AndroidSigningStorePass="{keypassword}"
+
