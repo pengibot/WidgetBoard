@@ -39,3 +39,16 @@ To create and Android Bundle signed with the certificate, run the following
 
 dotnet publish ./WidgetBoard/WidgetBoard.csproj --framework net8.0-android34.0 -p:ApplicationVersion="1" -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="{filename}.keystore" -p:AndroidSigningKeyAlias={keyname} -p:AndroidSigningKeyPass="{keypassword}" -p:AndroidSigningStorePass="{keypassword}"
 
+## Publish Windows
+
+This generates a self signed certificate:
+
+New-SelfSignedCertificate -Type Custom -Subject "CN=pengibot" -KeyUsage DigitalSignature -FriendlyName "MAUI Windows Certificate" -CertStoreLocation "Cert:\CurrentUser\My"
+
+You can view your newly created certificate and get the thumbprint:
+
+Get-ChildItem "Cert:\CurrentUser\My" | Format-Table Thumbprint, Subject, FriendlyName
+
+Finally, using the thumbprint you can generate an MSIX installer
+
+dotnet publish WidgetBoard.csproj --framework net8.0-windows10.0.26100.0 -p:PackageCertificateThumbprint={thumbprint}
