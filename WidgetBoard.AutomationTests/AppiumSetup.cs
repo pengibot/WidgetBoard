@@ -65,7 +65,7 @@ public class AppiumSetup
                     AutomationName = "windows",
                     PlatformName = "Windows",
                     // The identifier of the deployed application to test
-                    App = "com.companyname.widgetboard_9zz4h110yvjzm!App",
+                    App = "D:\\repos\\WidgetBoard\\WidgetBoard\\bin\\Debug\\net8.0-windows10.0.26100.0\\win10-x64\\WidgetBoard.exe",
                 };
 
                 return new WindowsDriver(windowsOptions);

@@ -13,6 +13,7 @@ public class BoardTests
     {
         if (App is WindowsDriver)
         {
+            Console.WriteLine("Looking for " + id);
             return App.FindElement(MobileBy.AccessibilityId(id));
         }
         return App.FindElement(MobileBy.Id(id));

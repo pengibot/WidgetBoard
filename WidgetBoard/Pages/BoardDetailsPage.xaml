@@ -29,6 +29,7 @@
                        x:Name="EnterBoardNameLabel"
                        FontAttributes="Bold" />
                 <Entry Text="{Binding BoardName}"
+                       AutomationId="BoardNameEntry"
                        SemanticProperties.Description="{Binding Text, Source={x:Reference EnterBoardNameLabel}}"
                        SemanticProperties.Hint="Provides a name that will be used to identify your widget board. 
                     This is a required field.">
@@ -48,17 +49,19 @@
                     <Label Text="Number of Columns"
                            FontAttributes="Bold" />
                     <Entry Text="{Binding NumberOfColumns}"
+                           AutomationId="NumberOfColumnsEntry"
                            Keyboard="Numeric" />
                     <Label Text="Number of Rows"
                            FontAttributes="Bold" />
                     <Entry Text="{Binding NumberOfRows}"
+                           AutomationId="NumberOfRowsEntry"
                            Keyboard="Numeric" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
             <Grid ColumnDefinitions="*,*,*">
                 <Button Text="Cancel"
-                        AutomationId="CancelButton"
+                        AutomationId="Cancel"
                         Command="{Binding CancelCommand}" />
 
                 <Button Text="Save"
