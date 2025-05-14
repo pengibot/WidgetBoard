@@ -87,6 +87,14 @@ public static class MauiProgram
         builder.Services.AddSingleton(Geolocation.Default);
         builder.Services.AddSingleton<ILocationService, PlatformLocationService>();
 
+        WidgetFactory.RegisterWidget<SketchWidgetView, SketchWidgetViewModel>(SketchWidgetViewModel.DisplayName);
+        builder.Services.AddTransient<SketchWidgetView>();
+        builder.Services.AddTransient<SketchWidgetViewModel>();
+
+        WidgetFactory.RegisterWidget<AnalogClockWidgetView, AnalogClockWidgetViewModel>(AnalogClockWidgetViewModel.DisplayName);
+        builder.Services.AddTransient<AnalogClockWidgetView>();
+        builder.Services.AddTransient<AnalogClockWidgetViewModel>();
+
         return builder.Build();
     }
 
